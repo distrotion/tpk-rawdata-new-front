@@ -58,9 +58,10 @@ class _AdvanceDropDownState extends State<AdvanceDropDown> {
     ];
 
     List outputZ = [];
-    if (widget.value != '') {
-      _showstr = widget.value;
-    }
+    // if (widget.value != '') {
+    //   _showstr = widget.value;
+    // }
+    _showstr = widget.value;
 
     List outputR = [
       for (int i = 0; i < _listdropdown.length; i++)

@@ -8,3 +8,13 @@ class DATABODY {
   int inte;
   bool bools;
 }
+
+class TABLECLASSclass {
+  TABLECLASSclass({
+    this.NO = '',
+    this.DATA = '',
+  });
+
+  String NO;
+  String DATA;
+}

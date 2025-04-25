@@ -6,6 +6,7 @@ import '../../mainBody.dart';
 import '../../page/page1.dart';
 import '../../page/page2.dart';
 import '../../page/page3.dart';
+import '../../page/page31.dart';
 import '../../page/page4.dart';
 import '../../page/page5.dart';
 import 'sub_widget.dart';
@@ -56,32 +57,34 @@ class Data_Menu_mainmenu extends StatelessWidget {
           height: 20,
         ),
         Align(
-            alignment: Alignment.center,
-            child: Container(
-                height: 40,
-                width: 180,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.all(1),
-                  child: Container(
-                    height: 35,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/logo_tpk.png"),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
+          alignment: Alignment.center,
+          child: Container(
+            height: 40,
+            width: 180,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.all(1),
+              child: Container(
+                height: 35,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/logo_tpk.png"),
+                    fit: BoxFit.fitHeight,
                   ),
-                ))),
+                ),
+              ),
+            ),
+          ),
+        ),
         menu_normal(
-          name: "Page1",
+          name: "RAWDATA",
           page: Page1(),
           Lv: 1,
         ),
         menu_normal(
-          name: "Page2",
-          page: Page2(),
+          name: "REPORT",
+          page: Page31(),
           Lv: 1,
         ),
         menu_normal(

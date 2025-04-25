@@ -81,7 +81,7 @@ void WORNINGPatMoveZonepop(
                   // ),
                   InkWell(
                     onTap: () {
-                      CuPage = Page1();
+                      // CuPage = Page1();
                       // MainBodyContext.read<ChangePage_Bloc>()
                       //     .add(ChangePage_nodrower());
                       Navigator.pop(contextin);

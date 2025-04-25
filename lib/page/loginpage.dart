@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/BlocEvent/LoginEvent.dart';
-import '../bloc/cubit/Rebuild.dart';
 import '../mainBody.dart';
 import '../widget/common/ComInputText.dart';
 import '../data/global.dart';
@@ -65,25 +64,10 @@ class LoginPageWidget extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 40,
-                    // child: ComInputText(
-                    //   height: 40,
-                    //   width: 240,
-                    //   isPassword: true,
-                    //   isContr: logindata.isControl,
-                    //   fnContr: (input) {
-                    //     logindata.isControl = input;
-                    //   },
-                    //   sValue: logindata.userPASS,
-                    //   returnfunc: (String s) {
-                    //     logindata.userPASS = s;
-                    //   },
-                    // ),
                     child: ComInputText(
-                      keyboardtype: TextInputType.visiblePassword,
-                      nLimitedChar: 50,
-                      width: 500,
-                      sPlaceholder: "Password",
                       height: 40,
+                      width: 240,
+                      isPassword: true,
                       isContr: logindata.isControl,
                       fnContr: (input) {
                         logindata.isControl = input;
@@ -92,8 +76,6 @@ class LoginPageWidget extends StatelessWidget {
                       returnfunc: (String s) {
                         logindata.userPASS = s;
                       },
-                      isEnabled: true,
-                      isPassword: true,
                     ),
                   ),
                   const SizedBox(
