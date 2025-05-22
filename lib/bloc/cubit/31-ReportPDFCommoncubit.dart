@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/global.dart';
+import '../../page/P31ReportPDFcommon/ReportPDFCommonMain.dart';
 import '../../page/P31ReportPDFcommon/ReportPDFCommonvar.dart';
+import '../../widget/common/Loading.dart';
 
 String server = 'http://172.23.10.40:16700/';
 
@@ -18,6 +21,8 @@ class ReportPDFCommon_Cubit extends Cubit<CommonReportOutput> {
         CommonReportOutput(databasic: BasicCommonDATA());
     BasicCommonDATA BasicCommonDATAs = BasicCommonDATA();
     List<String> passlist = [];
+
+    FreeLoading(ReportPDFCommoncontext);
 
     final response = await Dio().post(
       GLOserverRAW + "RAWDATA/getrawreport",
@@ -78,13 +83,21 @@ class ReportPDFCommon_Cubit extends Cubit<CommonReportOutput> {
             POINT: databuff[i]['POINT'] != null
                 ? databuff[i]['POINT'].toString()
                 : "",
+            TYPE: databuff[i]['TYPE'] != null
+                ? databuff[i]['TYPE'].toString()
+                : "",
+            SP01: databuff[i]['SP01'] != null
+                ? databuff[i]['SP01'].toString()
+                : "",
           ));
         }
       }
     }
-    print(passlist);
-    // print(BasicCommonDATAs.PASS);
-
+    Navigator.pop(ReportPDFCommoncontext);
+    // print(passlist);
+    // print(BasicCommonDATAs.PASS);.reversed;
+    // 123456789
+    output.datain = output.datain.reversed.toList();
     emit(output);
   }
 
@@ -111,6 +124,8 @@ class FINALCHECKlistCommonClass {
     this.Picture = '',
     this.NUMBER = '',
     this.POINT = '',
+    this.TYPE = '',
+    this.SP01 = '',
   });
   String date;
   String Location;
@@ -125,6 +140,8 @@ class FINALCHECKlistCommonClass {
   String Picture;
   String NUMBER;
   String POINT;
+  String TYPE;
+  String SP01;
 }
 
 // class datainlist {

@@ -5,6 +5,8 @@ import '../widget/ReportComponent/CommonReport.dart';
 class headerreport extends StatelessWidget {
   headerreport({
     super.key,
+    this.page,
+    this.ORDER,
     this.CUSTOMER,
     this.PROCESS,
     this.PARTNAME,
@@ -14,6 +16,8 @@ class headerreport extends StatelessWidget {
     this.MATERIAL,
     this.QTY,
   });
+  String? page;
+  String? ORDER;
   String? CUSTOMER;
   String? PROCESS;
   String? PARTNAME;
@@ -39,7 +43,7 @@ class headerreport extends StatelessWidget {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/logoonly_tpkpng.png",
+                        "assets/images/logo_tpk.png",
                       ),
                       fit: BoxFit.fitWidth,
                     ),
@@ -114,7 +118,7 @@ class headerreport extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 30, bottom: 10),
                               child: Text(
-                                "(ใบรายงานผลการตรวจสอบผลิตภัณฑ์สำหรับกระบวนการ GAS)",
+                                "(ใบรายงานผลการตรวจสอบผลิตภัณฑ์สำหรับกระบวนการ H&S)",
                                 style: TextStyle(
                                   fontSize: 16,
                                 ),
@@ -127,15 +131,15 @@ class headerreport extends StatelessWidget {
                   ),
                 ),
               ),
-              const Expanded(
+              Expanded(
                 flex: 1,
                 child: SizedBox(
                   height: 60,
                   child: Center(
                     child: Text(
-                      "FR-HQC-03/025-00-05/11/20",
+                      "PO : ${ORDER}" ?? '',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -148,7 +152,7 @@ class headerreport extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.only(
                         top: 40,
@@ -163,7 +167,8 @@ class headerreport extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 30, bottom: 10),
                       child: Text(
-                        "1/1",
+                        // "1/1",
+                        page ?? '1',
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -218,8 +223,8 @@ class headerreport extends StatelessWidget {
             ),
           ),
         ),
-        BODY4SLOT(
-          ListFlex: [4, 8, 3, 5],
+        BODY2SLOT(
+          ListFlex: [2, 8, 3, 5],
           widget01: const Center(
             child: Text(
               "Part Name",
@@ -242,24 +247,24 @@ class headerreport extends StatelessWidget {
               ),
             ),
           ),
-          widget03: const Center(
-            child: Text(
-              "Part No.",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          widget04: Center(
-            child: Text(
-              // ReportPDFCommonvar.PARTNO,
-              PARTNO ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
+          // widget03: const Center(
+          //   child: Text(
+          //     "Part No.",
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+          // widget04: Center(
+          //   child: Text(
+          //     // ReportPDFCommonvar.PARTNO,
+          //     PARTNO ?? '',
+          //     style: const TextStyle(
+          //       fontSize: 16,
+          //     ),
+          //   ),
+          // ),
         ),
         BODY2SLOT(
           ListFlex: [4, 16],

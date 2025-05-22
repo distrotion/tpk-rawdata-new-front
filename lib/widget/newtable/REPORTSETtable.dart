@@ -10,32 +10,38 @@ class FINISHEDGOODTRANFERHStable extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 1,
-          child: rowbox_type0(
+          flex: 2,
+          child: rowbox_type0BS(
             Head: "date",
           ),
         ),
         Expanded(
           flex: 1,
-          child: rowbox_type0(
-            Head: "Plant",
+          child: rowbox_type0BS(
+            Head: "TYPE",
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: rowbox_type0BS(
+            Head: "INSTRUMENT",
           ),
         ),
         Expanded(
           flex: 1,
-          child: rowbox_type0(
+          child: rowbox_type0BS(
             Head: "NUMBER",
           ),
         ),
         Expanded(
           flex: 1,
-          child: rowbox_type0(
+          child: rowbox_type0BS(
             Head: "POINT",
           ),
         ),
         Expanded(
-          flex: 2,
-          child: rowbox_type0(
+          flex: 6,
+          child: rowbox_type0BS(
             Head: "DATA",
           ),
         ),
@@ -88,8 +94,8 @@ class FINISHEDGOODTRANFERHSitem extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 1,
-          child: rowbox_type0(
+          flex: 2,
+          child: rowbox_type0BS(
             Head: text01,
             // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
             Colorss: holding ?? false ? Colors.grey.shade300 : Colors.white,
@@ -97,15 +103,23 @@ class FINISHEDGOODTRANFERHSitem extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: rowbox_type0(
+          child: rowbox_type0BS(
             Head: text02,
             // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
             Colorss: holding ?? false ? Colors.grey.shade300 : Colors.white,
           ),
         ),
         Expanded(
+          flex: 2,
+          child: rowbox_type0BS(
+            Head: text06,
+            // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
+            Colorss: holding ?? false ? Colors.grey.shade300 : Colors.white,
+          ),
+        ),
+        Expanded(
           flex: 1,
-          child: rowbox_type0(
+          child: rowbox_type0BS(
             Head: text03,
             // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
             Colorss: holding ?? false ? Colors.grey.shade300 : Colors.white,
@@ -113,18 +127,18 @@ class FINISHEDGOODTRANFERHSitem extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: rowbox_type0(
+          child: rowbox_type0BS(
             Head: text04,
             // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
             Colorss: holding ?? false ? Colors.grey.shade300 : Colors.white,
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 6,
           child: Column(
             children: [
               if (pic ?? false) ...[
-                rowbox_type0(
+                rowbox_type0BS(
                   Head: text05,
                   // Colorss: (holding ?? 0) % 2 == 0 ? Colors.white : Colors.grey,
                   Colorss:

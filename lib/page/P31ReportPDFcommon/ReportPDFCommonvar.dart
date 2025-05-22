@@ -68,6 +68,7 @@ class ReportPDFCommonvar {
   // static List<FlSpot> graphdata3 = [];
   // static List<FlSpot> graphdata4 = [];
   // static List<FlSpot> graphunder = [];
+  static int PAGE = 1;
 }
 
 class ReportPDFCommonlist {

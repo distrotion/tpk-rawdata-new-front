@@ -12,9 +12,13 @@ class DATABODY {
 class TABLECLASSclass {
   TABLECLASSclass({
     this.NO = '',
+    this.NUMBER = '',
+    this.POINT = '',
     this.DATA = '',
   });
 
   String NO;
+  String NUMBER;
+  String POINT;
   String DATA;
 }

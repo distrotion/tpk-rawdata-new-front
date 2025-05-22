@@ -6,6 +6,7 @@ import '../../data/global.dart';
 import '../../page/P1INPUTRAWDATA/P1INPUTRAWDATAMAIN.dart';
 import '../../page/P1INPUTRAWDATA/P1INPUTRAWDATAMAINVAR.dart';
 import '../../widget/common/Loading.dart';
+import '../../widget/common/Safty.dart';
 import '01-03-GETITEMS.dart';
 
 //-------------------------------------------------
@@ -56,7 +57,8 @@ class P1INPUTRAWDATA_Bloc
         output.CUSLOTNO = databuff[0]['CUSLOTNO'].toString();
         output.FG_CHARG = databuff[0]['FG_CHARG'].toString();
         output.CUST_FULLNM = databuff[0]['CUST_FULLNM'].toString();
-        P1INPUTRAWDATAMAINVAR.CPGET = int.parse(output.CPMAT).toString();
+        P1INPUTRAWDATAMAINVAR.CPGET =
+            int.parse(ConverstStr(output.CPMAT)).toString();
       }
     } else {
       //
@@ -64,6 +66,8 @@ class P1INPUTRAWDATA_Bloc
 
     // print(P1INPUTRAWDATAMAINVAR.CPGET);
     Navigator.pop(P1INPUTRAWDATAMAINcontext);
+    if (output.CPMAT.length > 6) {}
+
     P1INPUTRAWDATAMAINcontext.read<GETITEMS_Bloc>().add(GETITEMS_GET());
     emit(output);
   }

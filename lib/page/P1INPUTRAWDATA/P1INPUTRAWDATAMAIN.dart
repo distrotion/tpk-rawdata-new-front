@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -10,12 +11,15 @@ import 'package:image/image.dart' as IMG;
 
 import '../../bloc/BlocEvent/01-01-P1INPUTRAWDATA.dart';
 import '../../bloc/BlocEvent/01-02-GETINSTRUMENT.dart';
+import '../../bloc/BlocEvent/01-03-GETITEMS.dart';
 import '../../data/global.dart';
 import '../../model/model.dart';
 import '../../widget/common/Advancedropdown.dart';
 import '../../widget/common/ComInputText.dart';
+import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/IMGviewWID.dart';
 import '../../widget/common/Loading.dart';
+import '../../widget/common/Safty.dart';
 import '../../widget/newtable/tablebox.dart';
 import 'P1INPUTRAWDATAMAINVAR.dart';
 
@@ -40,9 +44,17 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    P1INPUTRAWDATAMAINVAR.NUMBER = '0';
+    P1INPUTRAWDATAMAINVAR.NUMBER = '1';
     P1INPUTRAWDATAMAINVAR.POINT = '0';
     P1INPUTRAWDATAMAINVAR.tabledata = [];
+    P1INPUTRAWDATAMAINVAR.AUTOGET == '';
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    P1INPUTRAWDATAMAINVAR.DHtimer.cancel();
   }
 
   @override
@@ -51,12 +63,36 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
     P1INPUTRAWDATAclass _data = widget.data ?? P1INPUTRAWDATAclass();
     List<MapEntry<String, String>> _dataDD = widget.dataDD ?? [];
     List<MapEntry<String, String>> _dataDD2 = widget.dataDD2 ?? [];
-    if (_dataDD.isNotEmpty) {
-      P1INPUTRAWDATAMAINVAR.INSTRUMENTlist = _dataDD;
-    }
+    // if (_dataDD.isNotEmpty) {
+    //   P1INPUTRAWDATAMAINVAR.INSTRUMENTlist = _dataDD;
+    // }
     if (_dataDD2.isNotEmpty) {
       P1INPUTRAWDATAMAINVAR.ITEMslist = _dataDD2;
     }
+
+    if (P1INPUTRAWDATAMAINVAR.AUTOGET == 'auto') {
+      P1INPUTRAWDATAMAINVAR.DHtimer = Timer(const Duration(seconds: 1), () {
+        //
+        Dio().post(
+          "http://172.23.10.40:1900/" + "getdata",
+          data: {
+            "INS": P1INPUTRAWDATAMAINVAR.INSTRUMENT,
+            "NO": P1INPUTRAWDATAMAINVAR.POINT,
+            "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+            "LOCATION": P1INPUTRAWDATAMAINVAR.LOCATION,
+            "PLANT": P1INPUTRAWDATAMAINVAR.PLANT,
+          },
+        ).then((v) {
+          var databuff = v.data;
+          // print(databuff);
+          if (databuff['DATA'] != null) {
+            P1INPUTRAWDATAMAINVAR.DATASET = databuff['DATA'].toString();
+            setState(() {});
+          }
+        });
+      });
+    }
+
     return Container(
       height: 600,
       width: 900,
@@ -126,9 +162,67 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                         P1INPUTRAWDATAMAINVAR.PLANT = d;
                       });
 
-                      context
-                          .read<GETINSTRUMENT_Bloc>()
-                          .add(GETINSTRUMENT_GET());
+                      // context
+                      //     .read<GETINSTRUMENT_Bloc>()
+                      //     .add(GETINSTRUMENT_GET());
+
+                      if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'BP12GAS') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.BP12GAS;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'BP12PH') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.BP12PH;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'BP12PAL') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.BP12PAL;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'BP12PVD') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.BP12PVD;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'BP12KNG') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.BP12KNG;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'GWGAS') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.GWGAS;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'HESGAS') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.HESGAS;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'HESPH') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.HESPH;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'HESDEL') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.HESDEL;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'HESPAL') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.HESPAL;
+                      } else if ((P1INPUTRAWDATAMAINVAR.LOCATION +
+                              P1INPUTRAWDATAMAINVAR.PLANT) ==
+                          'HESISN') {
+                        P1INPUTRAWDATAMAINVAR.INSTRUMENTlist =
+                            P1INPUTRAWDATAMAINVAR.HESISN;
+                      }
+                      setState(() {});
                     },
                     value: P1INPUTRAWDATAMAINVAR.PLANT,
                     height: 40,
@@ -182,30 +276,34 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
           ),
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 80,
-                  width: 150,
-                  child: ComInputText(
-                    isNumberOnly: true,
-                    isEnabled: _data.CUST_FULLNM == '',
-                    sLabel: "ORDER",
-                    height: 40,
-                    width: 250,
-                    isContr: P1INPUTRAWDATAMAINVAR.iscontrol,
-                    fnContr: (input) {
-                      setState(() {
-                        P1INPUTRAWDATAMAINVAR.iscontrol = input;
-                      });
-                    },
-                    sValue: P1INPUTRAWDATAMAINVAR.ORDER,
-                    returnfunc: (String s) {
-                      P1INPUTRAWDATAMAINVAR.ORDER = s;
-                      setState(() {});
-                    },
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 80,
+                      width: 150,
+                      child: ComInputText(
+                        // isNumberOnly: true,
+                        isEnabled: _data.CUST_FULLNM == '',
+                        sLabel: "ORDER",
+                        height: 40,
+                        width: 250,
+                        isContr: P1INPUTRAWDATAMAINVAR.iscontrol,
+                        fnContr: (input) {
+                          setState(() {
+                            P1INPUTRAWDATAMAINVAR.iscontrol = input;
+                          });
+                        },
+                        sValue: P1INPUTRAWDATAMAINVAR.ORDER,
+                        returnfunc: (String s) {
+                          P1INPUTRAWDATAMAINVAR.ORDER = s;
+                          setState(() {});
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               Column(
                 children: [
@@ -238,6 +336,8 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                             if (databuff.length > 0) {
                               P1INPUTRAWDATAMAINVAR.NUMBER =
                                   databuff[0]['NUMBER'];
+                              P1INPUTRAWDATAMAINVAR.POINT =
+                                  databuff[0]['POINT'];
                               Dio().post(
                                 GLOserverRAW + "RAWDATA/getdata",
                                 data: {
@@ -255,12 +355,17 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                     //
                                     P1INPUTRAWDATAMAINVAR.tabledata.add(
                                         TABLECLASSclass(
-                                            NO: (i + 1).toString(),
+                                            // NO: (i + 1).toString(),
+                                            NO: (databuff.length - i)
+                                                .toString(),
                                             DATA: databuff[i]['Data']));
                                   }
 
                                   P1INPUTRAWDATAMAINVAR.POINT =
                                       (databuff.length).toString();
+                                } else {
+                                  P1INPUTRAWDATAMAINVAR.tabledata = [];
+                                  setState(() {});
                                 }
                               });
                             }
@@ -285,26 +390,6 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                   ),
                 ],
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: SizedBox(
-              //     height: 80,
-              //     width: 200,
-              //     child: AdvanceDropDown(
-              //       sLabel: "ITEMs",
-              //       imgpath: '',
-              //       listdropdown: P1INPUTRAWDATAMAINVAR.ITEMslist,
-              //       onChangeinside: (d, v) {
-              //         setState(() {
-              //           P1INPUTRAWDATAMAINVAR.ITEMs = d;
-              //         });
-              //       },
-              //       value: P1INPUTRAWDATAMAINVAR.ITEMs,
-              //       height: 40,
-              //       width: 200,
-              //     ),
-              //   ),
-              // ),
               Spacer(),
               Column(
                 children: [
@@ -317,14 +402,100 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
+                      child:
+                          // Container(
+                          //   height: 40,
+                          //   width: 100,
+                          //   color: Colors.green,
+                          //   child: Center(
+                          //     child: Text(
+                          //         "NUMBER : ${int.parse(P1INPUTRAWDATAMAINVAR.NUMBER) + 1}"),
+                          //   ),
+                          // ),
+                          AdvanceDropDown(
+                        imgpath: '',
+                        sLabel: "NUMBER",
+                        listdropdown: const [
+                          MapEntry("", ""),
+                          MapEntry("1", "1"),
+                          MapEntry("2", "2"),
+                          MapEntry("3", "3"),
+                          MapEntry("4", "4"),
+                          MapEntry("5", "5"),
+                          MapEntry("6", "6"),
+                          MapEntry("7", "7"),
+                          MapEntry("8", "8"),
+                          MapEntry("9", "9"),
+                          MapEntry("10", "10"),
+                          MapEntry("11", "11"),
+                          MapEntry("12", "12"),
+                          MapEntry("13", "13"),
+                          MapEntry("14", "14"),
+                          MapEntry("15", "15"),
+                          MapEntry("16", "16"),
+                          MapEntry("17", "17"),
+                          MapEntry("18", "18"),
+                          MapEntry("19", "19"),
+                          MapEntry("20", "20"),
+                        ],
+                        onChangeinside: (d, v) {
+                          P1INPUTRAWDATAMAINVAR.NUMBER = d;
+                          P1INPUTRAWDATAMAINVAR.tabledata = [];
+                          Dio().post(
+                            GLOserverRAW + "RAWDATA/getdataall",
+                            data: {
+                              "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                              "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                              "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                            },
+                          ).then((v) {
+                            var databuff = v.data;
+
+                            if (databuff.length > 0) {
+                              // P1INPUTRAWDATAMAINVAR.NUMBER =
+                              //     databuff[0]['NUMBER'];
+                              // P1INPUTRAWDATAMAINVAR.POINT =
+                              //     databuff[0]['POINT'];
+
+                              Dio().post(
+                                GLOserverRAW + "RAWDATA/getdata",
+                                data: {
+                                  "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                                  "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                                  "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                                },
+                              ).then((v) {
+                                var databuff = v.data;
+
+                                if (databuff.length > 0) {
+                                  for (var i = 0; i < databuff.length; i++) {
+                                    //
+                                    P1INPUTRAWDATAMAINVAR.tabledata.add(
+                                        TABLECLASSclass(
+                                            // NO: (i + 1).toString(),
+                                            NO: (databuff.length - i)
+                                                .toString(),
+                                            DATA: databuff[i]['Data']));
+                                  }
+
+                                  P1INPUTRAWDATAMAINVAR.POINT =
+                                      (databuff.length).toString();
+                                  setState(() {});
+                                } else {
+                                  P1INPUTRAWDATAMAINVAR.POINT = "0";
+                                  P1INPUTRAWDATAMAINVAR.tabledata = [];
+                                  setState(() {});
+                                }
+                              });
+                            }
+                          });
+
+                          setState(() {});
+                        },
+                        // value: P1INPUTRAWDATAMAINVAR.NUMBER,
+                        value: P1INPUTRAWDATAMAINVAR.NUMBER,
                         height: 40,
                         width: 100,
-                        color: Colors.green,
-                        child: Center(
-                          child: Text(
-                              "NUMBER : ${int.parse(P1INPUTRAWDATAMAINVAR.NUMBER) + 1}"),
-                        ),
                       ),
                     ),
                   ),
@@ -342,7 +513,7 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        height: 40,
+                        height: 60,
                         width: 100,
                         color: Colors.green,
                         child: Center(
@@ -354,7 +525,6 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                   ),
                 ],
               ),
-
               Column(
                 children: [
                   SizedBox(
@@ -363,6 +533,22 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                   InkWell(
                     onTap: () {
                       //
+                      // Dio().post(
+                      //   GLOserverRAW + "RAWDATA/getdataall",
+                      //   data: {
+                      //     "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                      //     "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                      //     "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                      //   },
+                      // ).then((v) {
+                      //   var databuff = v.data;
+
+                      //   if (databuff.length > 0) {
+                      //     P1INPUTRAWDATAMAINVAR.NUMBER = databuff[0]['NUMBER'];
+                      //     P1INPUTRAWDATAMAINVAR.POINT = databuff[0]['POINT'];
+                      //   }
+                      // });
+
                       P1INPUTRAWDATAMAINVAR.DATASET = '';
                       Dio().post(
                         "http://172.23.10.40:1900/" + "getdata",
@@ -370,45 +556,53 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                           "INS": P1INPUTRAWDATAMAINVAR.INSTRUMENT,
                           "NO": P1INPUTRAWDATAMAINVAR.POINT,
                           "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                          "LOCATION": P1INPUTRAWDATAMAINVAR.LOCATION,
+                          "PLANT": P1INPUTRAWDATAMAINVAR.PLANT,
                         },
                       ).then((v) {
                         var databuff = v.data;
-                        print(databuff);
+                        // print(databuff);
                         if (databuff['DATA'] != null) {
                           P1INPUTRAWDATAMAINVAR.DATASET =
                               databuff['DATA'].toString();
                           setState(() {});
-                        }
-                      });
-                      P1INPUTRAWDATAMAINVAR.tabledata = [];
-                      Dio().post(
-                        GLOserverRAW + "RAWDATA/getdata",
-                        data: {
-                          "Order": P1INPUTRAWDATAMAINVAR.ORDER,
-                          "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
-                          "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
-                        },
-                      ).then((v) {
-                        var databuff = v.data;
 
-                        if (databuff.length > 0) {
-                          setState(() {});
-                          for (var i = 0; i < databuff.length; i++) {
-                            //
-                            P1INPUTRAWDATAMAINVAR.tabledata.add(TABLECLASSclass(
-                                NO: (i + 1).toString(),
-                                DATA: databuff[i]['Data']));
-                          }
+                          P1INPUTRAWDATAMAINVAR.tabledata = [];
+                          Dio().post(
+                            GLOserverRAW + "RAWDATA/getdata",
+                            data: {
+                              "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                              "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                              "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                            },
+                          ).then((v) {
+                            var databuff = v.data;
 
-                          P1INPUTRAWDATAMAINVAR.POINT =
-                              (databuff.length).toString();
+                            if (databuff.length > 0) {
+                              for (var i = 0; i < databuff.length; i++) {
+                                //
+                                P1INPUTRAWDATAMAINVAR.tabledata
+                                    .add(TABLECLASSclass(
+                                        // NO: (i + 1).toString(),
+                                        NO: (databuff.length - i).toString(),
+                                        DATA: databuff[i]['Data']));
+                              }
+
+                              P1INPUTRAWDATAMAINVAR.POINT =
+                                  (databuff.length).toString();
+                              setState(() {});
+                            } else {
+                              P1INPUTRAWDATAMAINVAR.tabledata = [];
+                              setState(() {});
+                            }
+                          });
                         }
                       });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        height: 40,
+                        height: 60,
                         width: 150,
                         color: Colors.blue,
                         child: Center(
@@ -427,28 +621,106 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                   InkWell(
                     onTap: () {
                       //
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Comfirm Delete Data'),
-                          content: const Text('Delete all data by  order NO.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
+                      if (P1INPUTRAWDATAMAINVAR.POINT == '0') {
+                        print("con not back");
+                        // if (int.parse(
+                        //         ConverstStr(P1INPUTRAWDATAMAINVAR.NUMBER)) !=
+                        //     0) {
+                        //   P1INPUTRAWDATAMAINVAR.NUMBER = (int.parse(ConverstStr(
+                        //               P1INPUTRAWDATAMAINVAR.NUMBER)) -
+                        //           1)
+                        //       .toString();
+                        //   P1INPUTRAWDATAMAINVAR.DATASET = '';
+                        //   Dio().post(
+                        //     GLOserverRAW + "RAWDATA/DELETELASTrawreport",
+                        //     data: {
+                        //       "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                        //       "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                        //       "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                        //     },
+                        //   ).then((v) {
+                        //     var databuff = v.data;
+
+                        //     P1INPUTRAWDATAMAINVAR.tabledata = [];
+                        //     Dio().post(
+                        //       GLOserverRAW + "RAWDATA/getdata",
+                        //       data: {
+                        //         "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                        //         "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                        //         "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                        //       },
+                        //     ).then((v) {
+                        //       var databuff = v.data;
+
+                        //       if (databuff.length > 0) {
+                        //         for (var i = 0; i < databuff.length; i++) {
+                        //           //
+                        //           P1INPUTRAWDATAMAINVAR.tabledata
+                        //               .add(TABLECLASSclass(
+                        //                   // NO: (i + 1).toString(),
+                        //                   NO: (databuff.length - i).toString(),
+                        //                   DATA: databuff[i]['Data']));
+                        //         }
+                        //         setState(() {});
+                        //         P1INPUTRAWDATAMAINVAR.POINT =
+                        //             (databuff.length).toString();
+                        //       } else {
+                        //         P1INPUTRAWDATAMAINVAR.tabledata = [];
+                        //         P1INPUTRAWDATAMAINVAR.POINT = '0';
+                        //         setState(() {});
+                        //       }
+                        //     });
+                        //   });
+                        // }
+                      } else {
+                        P1INPUTRAWDATAMAINVAR.DATASET = '';
+                        Dio().post(
+                          GLOserverRAW + "RAWDATA/DELETELASTrawreport",
+                          data: {
+                            "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                            "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                            "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                          },
+                        ).then((v) {
+                          var databuff = v.data;
+
+                          P1INPUTRAWDATAMAINVAR.tabledata = [];
+                          Dio().post(
+                            GLOserverRAW + "RAWDATA/getdata",
+                            data: {
+                              "Order": P1INPUTRAWDATAMAINVAR.ORDER,
+                              "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
+                              "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                              "PLANT": P1INPUTRAWDATAMAINVAR.PLANT,
+                            },
+                          ).then((v) {
+                            var databuff = v.data;
+
+                            if (databuff.length > 0) {
+                              for (var i = 0; i < databuff.length; i++) {
+                                //
+                                P1INPUTRAWDATAMAINVAR.tabledata
+                                    .add(TABLECLASSclass(
+                                        // NO: (i + 1).toString(),
+                                        NO: (databuff.length - i).toString(),
+                                        DATA: databuff[i]['Data']));
+                              }
+                              setState(() {});
+                              P1INPUTRAWDATAMAINVAR.POINT =
+                                  (databuff.length).toString();
+                            } else {
+                              P1INPUTRAWDATAMAINVAR.tabledata = [];
+                              P1INPUTRAWDATAMAINVAR.POINT = '0';
+                              setState(() {});
+                            }
+                          });
+                        });
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        height: 40,
+                        height: 60,
                         width: 150,
                         color: Colors.red,
                         child: Center(
@@ -470,6 +742,26 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                   padding: const EdgeInsets.only(left: 12),
                   child: Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 80,
+                          width: 200,
+                          child: AdvanceDropDown(
+                            sLabel: "ITEMs",
+                            imgpath: '',
+                            listdropdown: P1INPUTRAWDATAMAINVAR.ITEMslist,
+                            onChangeinside: (d, v) {
+                              setState(() {
+                                P1INPUTRAWDATAMAINVAR.ITEMs = d;
+                              });
+                            },
+                            value: P1INPUTRAWDATAMAINVAR.ITEMs,
+                            height: 40,
+                            width: 200,
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
                           SizedBox(
@@ -504,10 +796,10 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 30,
+                                  height: 45,
                                   child: Row(
                                     children: [
-                                      Text("Lot|PART:"),
+                                      Text("PART:"),
                                     ],
                                   ),
                                 ),
@@ -541,15 +833,21 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                   height: 30,
                                   child: Row(
                                     children: [
-                                      Text(_data.CUSLOTNO),
+                                      Text(_data.FG_CHARG),
                                     ],
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 30,
+                                  height: 45,
                                   child: Row(
                                     children: [
-                                      Text(_data.CUSTNA),
+                                      SizedBox(
+                                        width: 180,
+                                        child: Text(
+                                          _data.PARTNA,
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -566,13 +864,27 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                           InkWell(
                             onTap: () {
                               //
+                              P1INPUTRAWDATAMAINVAR.iscontrol = true;
+                              P1INPUTRAWDATAMAINVAR.NUMBER = '1';
+                              P1INPUTRAWDATAMAINVAR.POINT = '0';
+                              P1INPUTRAWDATAMAINVAR.ORDER = '';
+                              P1INPUTRAWDATAMAINVAR.ITEMs = '';
+                              P1INPUTRAWDATAMAINVAR.ITEMslist = [
+                                MapEntry("", "")
+                              ];
+                              setState(() {});
+                              P1INPUTRAWDATAMAINcontext.read<GETITEMS_Bloc>()
+                                  .add(GETITEMS_flush());
+                              context
+                                  .read<P1INPUTRAWDATA_Bloc>()
+                                  .add(P1INPUTRAWDATA_SET());
                             },
                             child: Container(
                               height: 40,
                               width: 150,
                               color: Colors.blue,
                               child: Center(
-                                child: Text("START"),
+                                child: Text("CLEAR PO"),
                               ),
                             ),
                           ),
@@ -595,6 +907,9 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                               P1INPUTRAWDATAMAINVAR.SPCdata = '';
                               P1INPUTRAWDATAMAINVAR.SPC = '';
 
+                              P1INPUTRAWDATAMAINVAR.NUMBER = '1';
+                              P1INPUTRAWDATAMAINVAR.POINT = '0';
+
                               P1INPUTRAWDATAMAINVAR.INSTRUMENTlist = [
                                 MapEntry("", "")
                               ];
@@ -602,6 +917,16 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                 MapEntry("", "")
                               ];
                               P1INPUTRAWDATAMAINVAR.tabledata = [];
+                              //
+                              P1INPUTRAWDATAMAINVAR.ITEMs = '';
+                              P1INPUTRAWDATAMAINVAR.ITEMslist = [
+                                MapEntry("", "")
+                              ];
+                              P1INPUTRAWDATAMAINcontext.read<GETITEMS_Bloc>()
+                                  .add(GETITEMS_flush());
+                              //
+                              setState(() {});
+
                               context
                                   .read<P1INPUTRAWDATA_Bloc>()
                                   .add(P1INPUTRAWDATA_SET());
@@ -655,6 +980,7 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                               ),
                               InkWell(
                                 onTap: () {
+                                  // if (P1INPUTRAWDATAMAINVAR.ITEMs != '') {
                                   //
                                   //RAWDATA/insertdata
                                   if (P1INPUTRAWDATAMAINVAR.DATATYPE ==
@@ -676,6 +1002,9 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                         "Picture": P1INPUTRAWDATAMAINVAR.Pimg,
                                         "UserInput": USERDATA.ID,
                                         "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+
+                                        "INSTRUMENT": "",
+                                        "SP02": P1INPUTRAWDATAMAINVAR.ITEMs,
 
                                         //
                                         "SEQ": _data.SEQ,
@@ -716,13 +1045,18 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                             //
                                             P1INPUTRAWDATAMAINVAR.tabledata.add(
                                                 TABLECLASSclass(
-                                                    NO: (i + 1).toString(),
+                                                    // NO: (i + 1).toString(),
+                                                    NO: (databuff.length - i)
+                                                        .toString(),
                                                     DATA: databuff[i]['Data']));
                                           }
 
                                           P1INPUTRAWDATAMAINVAR.POINT =
                                               (databuff.length).toString();
                                           P1INPUTRAWDATAMAINVAR.Pimg = '';
+                                        } else {
+                                          P1INPUTRAWDATAMAINVAR.tabledata = [];
+                                          setState(() {});
                                         }
                                       });
 
@@ -746,6 +1080,10 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                         "Picture": "",
                                         "UserInput": USERDATA.ID,
                                         "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                                        "SP02": P1INPUTRAWDATAMAINVAR.ITEMs,
+
+                                        "INSTRUMENT":
+                                            P1INPUTRAWDATAMAINVAR.INSTRUMENT,
 
                                         //
                                         "SEQ": _data.SEQ,
@@ -761,40 +1099,7 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                       },
                                     ).then((v) {
                                       //
-                                      // var databuff = v.data;
-                                      // context
-                                      //     .read<SIGNATURESGET_Bloc>()
-                                      //     .add(SIGNATURESGET_MATCP());
-                                      //---------------------------------------------------------
-                                      // P1INPUTRAWDATAMAINVAR.tabledata = [];
-                                      // Dio().post(
-                                      //   GLOserverRAW + "RAWDATA/getdata",
-                                      //   data: {
-                                      //     "Order": P1INPUTRAWDATAMAINVAR.ORDER,
-                                      //     "NUMBER":
-                                      //         P1INPUTRAWDATAMAINVAR.NUMBER,
-                                      //     "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
-                                      //   },
-                                      // ).then((v) {
-                                      //   var databuff = v.data;
-                                      //   // print(databuff);
-                                      //   if (databuff.length > 0) {
-                                      //     // print(databuff);
-                                      //     setState(() {});
-                                      //     for (var i = 0;
-                                      //         i < databuff.length;
-                                      //         i++) {
-                                      //       //
-                                      //       P1INPUTRAWDATAMAINVAR.tabledata.add(
-                                      //           TABLECLASSclass(
-                                      //               NO: (i + 1).toString(),
-                                      //               DATA: databuff[i]['Data']));
-                                      //     }
 
-                                      //     P1INPUTRAWDATAMAINVAR.POINT =
-                                      //         (databuff.length).toString();
-                                      //   }
-                                      // });
                                       //-----------------------------------------------------------------
                                       P1INPUTRAWDATAMAINVAR.DATASET = '';
                                       Dio().post(
@@ -804,6 +1109,9 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                               P1INPUTRAWDATAMAINVAR.INSTRUMENT,
                                           "NO": P1INPUTRAWDATAMAINVAR.POINT,
                                           "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                                          "LOCATION":
+                                              P1INPUTRAWDATAMAINVAR.LOCATION,
+                                          "PLANT": P1INPUTRAWDATAMAINVAR.PLANT,
                                         },
                                       ).then((v) {
                                         var databuff = v.data;
@@ -825,27 +1133,36 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                         },
                                       ).then((v) {
                                         var databuff = v.data;
-
+                                        P1INPUTRAWDATAMAINVAR.DATASET = '';
                                         if (databuff.length > 0) {
-                                          setState(() {});
                                           for (var i = 0;
                                               i < databuff.length;
                                               i++) {
                                             //
                                             P1INPUTRAWDATAMAINVAR.tabledata.add(
                                                 TABLECLASSclass(
-                                                    NO: (i + 1).toString(),
+                                                    // NO: (i + 1).toString(),
+                                                    NO: (databuff.length - i)
+                                                        .toString(),
                                                     DATA: databuff[i]['Data']));
                                           }
 
                                           P1INPUTRAWDATAMAINVAR.POINT =
                                               (databuff.length).toString();
+                                        } else {
+                                          P1INPUTRAWDATAMAINVAR.tabledata = [];
+                                          setState(() {});
                                         }
+                                        setState(() {});
                                       });
 
                                       setState(() {});
                                     });
                                   }
+                                  // } else {
+                                  //   showErrorPopup(
+                                  //       context, "Please select items");
+                                  // }
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20),
@@ -859,56 +1176,121 @@ class _P1INPUTRAWDATAMAINState extends State<P1INPUTRAWDATAMAIN> {
                                   ),
                                 ),
                               ),
+
                               InkWell(
                                 onTap: () {
-                                  //
-                                  // P1INPUTRAWDATAMAINVAR.tabledata = [];
-                                  // Dio().post(
-                                  //   GLOserverRAW + "RAWDATA/getdata",
-                                  //   data: {
-                                  //     "Order": P1INPUTRAWDATAMAINVAR.ORDER,
-                                  //     "NUMBER": P1INPUTRAWDATAMAINVAR.NUMBER,
-                                  //   },
-                                  // ).then((v) {
-                                  //   var databuff = v.data;
-                                  //   // print(databuff);
-                                  //   if (databuff.length > 0) {
-                                  //     // print(databuff);
-                                  //     setState(() {});
-                                  //     for (var i = 0;
-                                  //         i < databuff.length;
-                                  //         i++) {
-                                  //       //
-                                  //       P1INPUTRAWDATAMAINVAR.tabledata.add(
-                                  //           TABLECLASSclass(
-                                  //               NO: (i + 1).toString(),
-                                  //               DATA: databuff[i]['Data']));
-                                  //     }
+                                  if (P1INPUTRAWDATAMAINVAR.AUTOGET == 'auto') {
+                                    P1INPUTRAWDATAMAINVAR.AUTOGET = '';
+                                    P1INPUTRAWDATAMAINVAR.DHtimer.cancel();
+                                    setState(() {});
+                                  } else {
+                                    P1INPUTRAWDATAMAINVAR.AUTOGET = 'auto';
 
-                                  //     P1INPUTRAWDATAMAINVAR.POINT =
-                                  //         (databuff.length).toString();
-                                  //   }
-                                  // });
-                                  P1INPUTRAWDATAMAINVAR.NUMBER =
-                                      (int.parse(P1INPUTRAWDATAMAINVAR.NUMBER) +
-                                              1)
-                                          .toString();
-                                  P1INPUTRAWDATAMAINVAR.POINT = '0';
-                                  P1INPUTRAWDATAMAINVAR.tabledata = [];
-                                  setState(() {});
+                                    // Timer timer =
+                                    //     Timer(const Duration(seconds: 1), () {
+                                    //   //
+                                    //   Dio().post(
+                                    //     "http://172.23.10.40:1900/" + "getdata",
+                                    //     data: {
+                                    //       "INS":
+                                    //           P1INPUTRAWDATAMAINVAR.INSTRUMENT,
+                                    //       "NO": P1INPUTRAWDATAMAINVAR.POINT,
+                                    //       "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                                    //       "LOCATION":
+                                    //           P1INPUTRAWDATAMAINVAR.LOCATION,
+                                    //       "PLANT": P1INPUTRAWDATAMAINVAR.PLANT,
+                                    //     },
+                                    //   ).then((v) {
+                                    //     var databuff = v.data;
+                                    //     // print(databuff);
+                                    //     if (databuff['DATA'] != null) {
+                                    //       P1INPUTRAWDATAMAINVAR.DATASET =
+                                    //           databuff['DATA'].toString();
+                                    //       setState(() {});
+
+                                    //       P1INPUTRAWDATAMAINVAR.tabledata = [];
+                                    //       Dio().post(
+                                    //         GLOserverRAW + "RAWDATA/getdata",
+                                    //         data: {
+                                    //           "Order":
+                                    //               P1INPUTRAWDATAMAINVAR.ORDER,
+                                    //           "NUMBER":
+                                    //               P1INPUTRAWDATAMAINVAR.NUMBER,
+                                    //           "TYPE": P1INPUTRAWDATAMAINVAR.SPC,
+                                    //         },
+                                    //       ).then((v) {
+                                    //         var databuff = v.data;
+
+                                    //         if (databuff.length > 0) {
+                                    //           for (var i = 0;
+                                    //               i < databuff.length;
+                                    //               i++) {
+                                    //             //
+                                    //             P1INPUTRAWDATAMAINVAR.tabledata
+                                    //                 .add(TABLECLASSclass(
+                                    //                     // NO: (i + 1).toString(),
+                                    //                     NO: (databuff.length -
+                                    //                             i)
+                                    //                         .toString(),
+                                    //                     DATA: databuff[i]
+                                    //                         ['Data']));
+                                    //           }
+
+                                    //           P1INPUTRAWDATAMAINVAR.POINT =
+                                    //               (databuff.length).toString();
+                                    //           setState(() {});
+                                    //         } else {
+                                    //           P1INPUTRAWDATAMAINVAR.tabledata =
+                                    //               [];
+                                    //           setState(() {});
+                                    //         }
+                                    //       });
+                                    //     }
+                                    //   });
+                                    // });
+                                    // P1INPUTRAWDATAMAINVAR.DHtimer = timer;
+
+                                    setState(() {});
+                                  }
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Container(
                                     height: 40,
                                     width: 150,
-                                    color: Colors.blue,
+                                    color:
+                                        P1INPUTRAWDATAMAINVAR.AUTOGET == 'auto'
+                                            ? Colors.green
+                                            : Colors.grey,
                                     child: Center(
-                                      child: Text("FINISH"),
+                                      child: Text("AUTO GET"),
                                     ),
                                   ),
                                 ),
-                              ),
+                              )
+
+                              // InkWell(
+                              //   onTap: () {
+                              //     P1INPUTRAWDATAMAINVAR.NUMBER =
+                              //         (int.parse(P1INPUTRAWDATAMAINVAR.NUMBER) +
+                              //                 1)
+                              //             .toString();
+                              //     P1INPUTRAWDATAMAINVAR.POINT = '0';
+                              //     P1INPUTRAWDATAMAINVAR.tabledata = [];
+                              //     setState(() {});
+                              //   },
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.only(left: 20),
+                              //     child: Container(
+                              //       height: 40,
+                              //       width: 150,
+                              //       color: Colors.blue,
+                              //       child: Center(
+                              //         child: Text("FINISH"),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           Padding(

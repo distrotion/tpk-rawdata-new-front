@@ -36,11 +36,13 @@ class GETITEMS_Bloc
     );
     if (response.statusCode == 200) {
       var databuff = response.data;
-      print(databuff);
+
+      // print(databuff);
       if (databuff.length > 0) {
         //
         for (var i = 0; i < databuff.length; i++) {
-          output.add(MapEntry(databuff[i]['ItemsName'], databuff[i]['Items']));
+          output.add(
+              MapEntry(databuff[i]['ItemsName'], databuff[i]['ItemsName']));
         }
       }
     }

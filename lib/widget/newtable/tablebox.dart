@@ -19,6 +19,36 @@ class rowbox_type0 extends StatelessWidget {
               child: oneunitbox(
                 textin: Head ?? '',
                 Colorss: Colorss,
+                // textsize: 25,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class rowbox_type0BS extends StatelessWidget {
+  rowbox_type0BS({
+    Key? key,
+    this.Head,
+    this.Colorss,
+  }) : super(key: key);
+  String? Head;
+  Color? Colorss;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: oneunitbox(
+                textin: Head ?? '',
+                Colorss: Colorss,
+                textsize: 25,
               ),
             ),
           ],

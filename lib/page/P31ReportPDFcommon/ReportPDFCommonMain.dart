@@ -16,6 +16,7 @@ import '../../widget/common/ComInputText.dart';
 import '../../widget/common/IMGviewWID.dart';
 import '../../widget/common/Loading.dart';
 
+import '../../widget/common/Safty.dart';
 import '../../widget/function/helper.dart';
 import '../../widget/newtable/REPORTSETtable.dart';
 import 'ReportPDFCommonvar.dart';
@@ -35,6 +36,7 @@ class ReportPDFCommon extends StatefulWidget {
 class _ReportPDFCommonState extends State<ReportPDFCommon> {
   @override
   void initState() {
+    ReportPDFCommonvar.PAGE = 1;
     ReportPDFCommonvar.TPKLOTEDIT = '';
     if (ReportPDFCommonvar.PO != '') {
       ReportPDFCommonvar.canf = false;
@@ -45,7 +47,11 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
     super.initState();
   }
 
-  final GlobalKey _globalKey = GlobalKey();
+  final GlobalKey _globalKey1 = GlobalKey();
+  final GlobalKey _globalKey2 = GlobalKey();
+  final GlobalKey _globalKey3 = GlobalKey();
+  final GlobalKey _globalKey4 = GlobalKey();
+  final GlobalKey _globalKey5 = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +65,7 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
     if (_dataCOMMON.datain.isNotEmpty) {
       //
       ReportPDFCommonvar.STATUS = 'REPORT READY';
+      ReportPDFCommonvar.PO = _dataCOMMON.databasic.PO;
       ReportPDFCommonvar.CUSTOMER = _dataCOMMON.databasic.CUSTOMER;
       ReportPDFCommonvar.PROCESS = _dataCOMMON.databasic.PROCESS;
       ReportPDFCommonvar.PARTNAME = _dataCOMMON.databasic.PARTNAME;
@@ -66,6 +73,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
       ReportPDFCommonvar.CUSLOT = _dataCOMMON.databasic.CUSLOT;
       ReportPDFCommonvar.TPKLOT = _dataCOMMON.databasic.TPKLOT;
       ReportPDFCommonvar.MATERIAL = _dataCOMMON.databasic.MATERIAL;
+      ReportPDFCommonvar.QTY =
+          '${_dataCOMMON.databasic.QTY} ${_dataCOMMON.databasic.UNITSAP}';
+    }
+
+    print(_dataCOMMON.datain.length);
+
+    if (_dataCOMMON.datain.length < 32) {
+      ReportPDFCommonvar.PAGE = 1;
+    } else if (_dataCOMMON.datain.length >= 32 &&
+        _dataCOMMON.datain.length < 64) {
+      ReportPDFCommonvar.PAGE = 2;
+    } else if (_dataCOMMON.datain.length >= 64) {
+      ReportPDFCommonvar.PAGE = 3;
     }
 
     return SingleChildScrollView(
@@ -173,15 +193,46 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                   PDFloader(context);
                   Future.delayed(const Duration(milliseconds: 1000), () {
                     // capture(
-                    captureToback(
+                    // captureToback(
+                    // capture(
+                    //   _globalKey1,
+                    //   ReportPDFCommonvar.PO,
+                    // ).then((value) {
+                    //   print(value);
+                    //   Navigator.pop(context);
+                    // });
+                    if (ReportPDFCommonvar.PAGE == 1) {
                       // capture(
-                      _globalKey,
-                      ReportPDFCommonvar.PO,
-                    ).then((value) {
-                      print(value);
-
-                      Navigator.pop(context);
-                    });
+                      // captureToback(
+                      captureToback(
+                        _globalKey1,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else if (ReportPDFCommonvar.PAGE == 2) {
+                      // capture(
+                      // captureToback(
+                      capture2(
+                        _globalKey1,
+                        _globalKey2,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else {
+                      capture3(
+                        _globalKey1,
+                        _globalKey2,
+                        _globalKey3,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    }
                   });
                 },
                 child: Container(
@@ -277,7 +328,7 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: RepaintBoundary(
-              key: _globalKey,
+              key: _globalKey1,
               child: Column(
                 children: [
                   Row(
@@ -288,7 +339,9 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Container(
-                          height: 2000,
+                          // height: _dataCOMMON.datain.length > 30 ? 3000 : 2000,
+                          // width: 1364,
+                          height: 1900,
                           width: 1364,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 3),
@@ -299,10 +352,12 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                           child: Column(
                             children: [
                               headerreport(
+                                page: "1/" + ReportPDFCommonvar.PAGE.toString(),
+                                ORDER: ReportPDFCommonvar.PO,
                                 CUSTOMER: ReportPDFCommonvar.CUSTOMER,
                                 PROCESS: ReportPDFCommonvar.PROCESS,
-                                PARTNAME: ReportPDFCommonvar.PARTNAME,
-                                PARTNO: ReportPDFCommonvar.PARTNO,
+                                PARTNAME: ReportPDFCommonvar.PARTNO,
+                                PARTNO: "",
                                 CUSLOT: ReportPDFCommonvar.CUSLOT,
                                 TPKLOT: ReportPDFCommonvar.TPKLOT,
                                 MATERIAL: ReportPDFCommonvar.MATERIAL,
@@ -313,24 +368,66 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                 child: Column(
                                   children: [
                                     FINISHEDGOODTRANFERHStable(),
-                                    for (int i = 0;
-                                        i < _dataCOMMON.datain.length;
-                                        i++) ...[
-                                      //
-                                      FINISHEDGOODTRANFERHSitem(
-                                        text01: _dataCOMMON.datain[i].date,
-                                        text02: _dataCOMMON.datain[i].Plant,
-                                        text03: _dataCOMMON.datain[i].NUMBER,
-                                        text04: _dataCOMMON.datain[i].POINT,
-                                        text05: _dataCOMMON.datain[i].Data,
-                                        pic:
-                                            _dataCOMMON.datain[i].Picture == '',
-                                        Wid01: PicShow(
-                                          width: 75,
-                                          height: 75,
-                                          base64: _dataCOMMON.datain[i].Picture,
-                                        ),
-                                      )
+                                    if (_dataCOMMON.datain.length >= 32) ...[
+                                      for (int i = 0;
+                                          // i < _dataCOMMON.datain.length;
+                                          i < 32;
+                                          i++) ...[
+                                        //
+                                        FINISHEDGOODTRANFERHSitem(
+                                          text01: _dataCOMMON.datain[i].date,
+                                          text02: _dataCOMMON.datain[i].TYPE,
+                                          text03: (int.parse(ConverstStr(
+                                                  _dataCOMMON
+                                                      .datain[i].NUMBER)))
+                                              .toString(),
+                                          text04: (int.parse(ConverstStr(
+                                                      _dataCOMMON
+                                                          .datain[i].POINT)) +
+                                                  1)
+                                              .toString(),
+                                          text05: _dataCOMMON.datain[i].Data,
+                                          text06: _dataCOMMON.datain[i].SP01,
+                                          pic: _dataCOMMON.datain[i].Picture ==
+                                              '',
+                                          Wid01: PicShow(
+                                            width: 75,
+                                            height: 75,
+                                            base64:
+                                                _dataCOMMON.datain[i].Picture,
+                                          ),
+                                        )
+                                      ],
+                                    ] else ...[
+                                      for (int i = 0;
+                                          i < _dataCOMMON.datain.length;
+                                          // i < 30;
+                                          i++) ...[
+                                        //
+                                        FINISHEDGOODTRANFERHSitem(
+                                          text01: _dataCOMMON.datain[i].date,
+                                          text02: _dataCOMMON.datain[i].TYPE,
+                                          text03: (int.parse(ConverstStr(
+                                                  _dataCOMMON
+                                                      .datain[i].NUMBER)))
+                                              .toString(),
+                                          text04: (int.parse(ConverstStr(
+                                                      _dataCOMMON
+                                                          .datain[i].POINT)) +
+                                                  1)
+                                              .toString(),
+                                          text05: _dataCOMMON.datain[i].Data,
+                                          text06: _dataCOMMON.datain[i].SP01,
+                                          pic: _dataCOMMON.datain[i].Picture ==
+                                              '',
+                                          Wid01: PicShow(
+                                            width: 75,
+                                            height: 75,
+                                            base64:
+                                                _dataCOMMON.datain[i].Picture,
+                                          ),
+                                        )
+                                      ],
                                     ],
                                   ],
                                 ),
@@ -345,6 +442,250 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
               ),
             ),
           ),
+          if (_dataCOMMON.datain.length >= 32) ...[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: RepaintBoundary(
+                key: _globalKey2,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        // const SizedBox(
+                        //   width: 50,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Container(
+                            // height: _dataCOMMON.datain.length > 30 ? 3000 : 2000,
+                            // width: 1364,
+                            height: 1900,
+                            width: 1364,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black, width: 3),
+                              // color: Colors.red,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(0)),
+                            ),
+                            child: Column(
+                              children: [
+                                headerreport(
+                                  page:
+                                      "2/" + ReportPDFCommonvar.PAGE.toString(),
+                                  ORDER: ReportPDFCommonvar.PO,
+                                  CUSTOMER: ReportPDFCommonvar.CUSTOMER,
+                                  PROCESS: ReportPDFCommonvar.PROCESS,
+                                  PARTNAME: ReportPDFCommonvar.PARTNO,
+                                  PARTNO: "",
+                                  CUSLOT: ReportPDFCommonvar.CUSLOT,
+                                  TPKLOT: ReportPDFCommonvar.TPKLOT,
+                                  MATERIAL: ReportPDFCommonvar.MATERIAL,
+                                  QTY: ReportPDFCommonvar.QTY,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    children: [
+                                      FINISHEDGOODTRANFERHStable(),
+                                      if (_dataCOMMON.datain.length >= 64) ...[
+                                        for (int i = 32;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 64;
+                                            i++) ...[
+                                          //
+                                          FINISHEDGOODTRANFERHSitem(
+                                            text01: _dataCOMMON.datain[i].date,
+                                            text02: _dataCOMMON.datain[i].TYPE,
+                                            text03: (int.parse(ConverstStr(
+                                                    _dataCOMMON
+                                                        .datain[i].NUMBER)))
+                                                .toString(),
+                                            text04: (int.parse(ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT)) +
+                                                    1)
+                                                .toString(),
+                                            text05: _dataCOMMON.datain[i].Data,
+                                            text06: _dataCOMMON.datain[i].SP01,
+                                            pic:
+                                                _dataCOMMON.datain[i].Picture ==
+                                                    '',
+                                            Wid01: PicShow(
+                                              width: 75,
+                                              height: 75,
+                                              base64:
+                                                  _dataCOMMON.datain[i].Picture,
+                                            ),
+                                          )
+                                        ],
+                                      ] else ...[
+                                        for (int i = 32;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
+                                          //
+                                          FINISHEDGOODTRANFERHSitem(
+                                            text01: _dataCOMMON.datain[i].date,
+                                            text02: _dataCOMMON.datain[i].TYPE,
+                                            text03: (int.parse(ConverstStr(
+                                                    _dataCOMMON
+                                                        .datain[i].NUMBER)))
+                                                .toString(),
+                                            text04: (int.parse(ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT)) +
+                                                    1)
+                                                .toString(),
+                                            text05: _dataCOMMON.datain[i].Data,
+                                            text06: _dataCOMMON.datain[i].SP01,
+                                            pic:
+                                                _dataCOMMON.datain[i].Picture ==
+                                                    '',
+                                            Wid01: PicShow(
+                                              width: 75,
+                                              height: 75,
+                                              base64:
+                                                  _dataCOMMON.datain[i].Picture,
+                                            ),
+                                          )
+                                        ],
+                                      ],
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+          if (_dataCOMMON.datain.length >= 64) ...[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: RepaintBoundary(
+                key: _globalKey3,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        // const SizedBox(
+                        //   width: 50,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Container(
+                            // height: _dataCOMMON.datain.length > 30 ? 3000 : 2000,
+                            // width: 1364,
+                            height: 1900,
+                            width: 1364,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black, width: 3),
+                              // color: Colors.red,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(0)),
+                            ),
+                            child: Column(
+                              children: [
+                                headerreport(
+                                  page:
+                                      "3/" + ReportPDFCommonvar.PAGE.toString(),
+                                  ORDER: ReportPDFCommonvar.PO,
+                                  CUSTOMER: ReportPDFCommonvar.CUSTOMER,
+                                  PROCESS: ReportPDFCommonvar.PROCESS,
+                                  PARTNAME: ReportPDFCommonvar.PARTNO,
+                                  PARTNO: "",
+                                  CUSLOT: ReportPDFCommonvar.CUSLOT,
+                                  TPKLOT: ReportPDFCommonvar.TPKLOT,
+                                  MATERIAL: ReportPDFCommonvar.MATERIAL,
+                                  QTY: ReportPDFCommonvar.QTY,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    children: [
+                                      FINISHEDGOODTRANFERHStable(),
+                                      if (_dataCOMMON.datain.length >= 96) ...[
+                                        for (int i = 64;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 105;
+                                            i++) ...[
+                                          //
+                                          FINISHEDGOODTRANFERHSitem(
+                                            text01: _dataCOMMON.datain[i].date,
+                                            text02: _dataCOMMON.datain[i].TYPE,
+                                            text03: (int.parse(ConverstStr(
+                                                    _dataCOMMON
+                                                        .datain[i].NUMBER)))
+                                                .toString(),
+                                            text04: (int.parse(ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT)) +
+                                                    1)
+                                                .toString(),
+                                            text05: _dataCOMMON.datain[i].Data,
+                                            text06: _dataCOMMON.datain[i].SP01,
+                                            pic:
+                                                _dataCOMMON.datain[i].Picture ==
+                                                    '',
+                                            Wid01: PicShow(
+                                              width: 75,
+                                              height: 75,
+                                              base64:
+                                                  _dataCOMMON.datain[i].Picture,
+                                            ),
+                                          )
+                                        ],
+                                      ] else ...[
+                                        for (int i = 64;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
+                                          //
+                                          FINISHEDGOODTRANFERHSitem(
+                                            text01: _dataCOMMON.datain[i].date,
+                                            text02: _dataCOMMON.datain[i].TYPE,
+                                            text03: (int.parse(ConverstStr(
+                                                    _dataCOMMON
+                                                        .datain[i].NUMBER)))
+                                                .toString(),
+                                            text04: (int.parse(ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT)) +
+                                                    1)
+                                                .toString(),
+                                            text05: _dataCOMMON.datain[i].Data,
+                                            text06: _dataCOMMON.datain[i].SP01,
+                                            pic:
+                                                _dataCOMMON.datain[i].Picture ==
+                                                    '',
+                                            Wid01: PicShow(
+                                              width: 75,
+                                              height: 75,
+                                              base64:
+                                                  _dataCOMMON.datain[i].Picture,
+                                            ),
+                                          )
+                                        ],
+                                      ],
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           Container(
             height: 50,
           ),
