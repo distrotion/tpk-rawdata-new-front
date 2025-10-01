@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/global.dart';
-import '../../page/P1INPUTRAWDATA/P1INPUTRAWDATAMAINVAR.dart';
+import '../../page/P2INPUTRAWDATA2/P2INPUTRAWDATA2VAR.dart';
 
 //-------------------------------------------------
 
@@ -27,14 +27,14 @@ class GETITEMS_Bloc
     List<MapEntry<String, String>> output = [MapEntry("", "")];
 
     print("-------------->");
-    print(P1INPUTRAWDATAMAINVAR.LOCATION + P1INPUTRAWDATAMAINVAR.PLANT);
+    print(P2INPUTRAWDATA2MAINVAR.LOCATION + P2INPUTRAWDATA2MAINVAR.PLANT);
     final response = await Dio().post(
       GLOserverRAW + 'RAWDATA/Getitemslist',
       data: {
-        "PLANT": P1INPUTRAWDATAMAINVAR.LOCATION + P1INPUTRAWDATAMAINVAR.PLANT,
-        "CP": P1INPUTRAWDATAMAINVAR.CPGET,
-        "PCDATA": P1INPUTRAWDATAMAINVAR.SPCdata,
-        "PCDATAL": P1INPUTRAWDATAMAINVAR.SPC
+        "PLANT": P2INPUTRAWDATA2MAINVAR.LOCATION + P2INPUTRAWDATA2MAINVAR.PLANT,
+        "CP": P2INPUTRAWDATA2MAINVAR.CPGET,
+        "PCDATA": P2INPUTRAWDATA2MAINVAR.SPCdata,
+        "PCDATAL": P2INPUTRAWDATA2MAINVAR.SPC
       },
     );
 

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'TEST.dart';
 import 'page1.dart';
+import 'page2.dart';
 import 'page31.dart';
+import 'page4.dart';
 
 bool isChecked = false;
 
@@ -21,6 +23,8 @@ class Page0Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Page1();
+    // return Page2();
+    // return Page4();
     // return Page31();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'P4SELECTPLANTFORP2/P4SELECTPLANTFORP2MAIN.dart';
+
 class Page4 extends StatelessWidget {
   const Page4({Key? key}) : super(key: key);
 
@@ -14,13 +16,6 @@ class Page4Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 100,
-        width: 100,
-        color: Colors.red,
-        child: const Text("PAGE 4"),
-      ),
-    );
+    return Center(child: P4SELECTPLANTmain());
   }
 }

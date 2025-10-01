@@ -12,7 +12,7 @@ import '../cubit/NotificationEvent.dart';
 
 //-------------------------------------------------
 // String server = 'http://127.0.0.1:15000/';
-String server = GLOserver;
+String server = "http://172.23.10.40:16714/";
 
 Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 late Future<String> tokenSP;
@@ -53,7 +53,7 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
       var databuff = response.data;
       if (databuff['return'] == 'OK') {
         token =
-            '{"ID":"${databuff['ID'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['LV'].toString()}","Section":"${databuff['Section'].toString()}","Def":"${databuff['Def'].toString()}"  ,"LOCATION":"${databuff['LOCATION'].toString()}"}';
+            '{"ID":"${databuff['ID'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['LV'].toString()}","Section":"${databuff['Section'].toString()}","Def":"${databuff['Def'].toString()}"  ,"LOCATION":"${databuff['LOCATION'].toString()}" }';
         USERDATA.ID = databuff['ID'].toString();
         USERDATA.NAME = databuff['NAME'].toString();
         USERDATA.UserLV = int.parse(databuff['LV'].toString());
@@ -104,18 +104,58 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
     if (token != '') {
       var databuff = jsonDecode(token);
 
-      USERDATA.ID = databuff['ID'].toString();
-      USERDATA.UserLV = int.parse(databuff['LV'].toString());
-      USERDATA.NAME = databuff['NAME'].toString();
-      USERDATA.Section = databuff['Section'].toString();
-      USERDATA.Def = databuff['Def'].toString();
-      USERDATA.LOCATION = databuff['LOCATION'].toString();
+      // USERDATA.ID = databuff['ID'].toString();
+      // USERDATA.UserLV = int.parse(databuff['LV'].toString());
+      // USERDATA.NAME = databuff['NAME'].toString();
+      // USERDATA.Section = databuff['Section'].toString();
+      // USERDATA.Def = databuff['Def'].toString();
+      // USERDATA.LOCATION = databuff['LOCATION'].toString();
 
-      USERDATA.DefList =
-          USERDATA.Def.substring(1, USERDATA.Def.length - 1).split(',');
-      USERDATA.LOCATIONList = USERDATA.LOCATION
-          .substring(1, USERDATA.LOCATION.length - 1)
-          .split(',');
+      // USERDATA.DefList =
+      //     USERDATA.Def.substring(1, USERDATA.Def.length - 1).split(',');
+      // USERDATA.LOCATIONList = USERDATA.LOCATION
+      //     .substring(1, USERDATA.LOCATION.length - 1)
+      //     .split(',');
+
+      final response = await Dio().post(
+        server + "re_login",
+        data: {
+          "ID": databuff['ID'].toString(),
+          // "PASS": logindata.userPASS,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var databuff = response.data;
+        // print(databuff);
+        if (databuff['return'] == 'OK') {
+          token =
+              '{"ID":"${databuff['ID'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['LV'].toString()}","Section":"${databuff['Section'].toString()}","Def":"${databuff['Def'].toString()}"  ,"LOCATION":"${databuff['LOCATION'].toString()}"}';
+          USERDATA.ID = databuff['ID'].toString();
+          USERDATA.NAME = databuff['NAME'].toString();
+          USERDATA.UserLV = int.parse(databuff['LV'].toString());
+          USERDATA.Section = databuff['Section'].toString();
+          USERDATA.Def = databuff['Def'].toString();
+          USERDATA.LOCATION = databuff['LOCATION'].toString();
+          USERDATA.DefList =
+              USERDATA.Def.substring(1, USERDATA.Def.length - 1).split(',');
+          USERDATA.LOCATIONList = USERDATA.LOCATION
+              .substring(1, USERDATA.LOCATION.length - 1)
+              .split(',');
+        } else {
+          token = (prefs.getString('tokenSP') ?? '');
+
+          // USERDATA.UserLV = 0;
+        }
+      } else {
+        token = (prefs.getString('tokenSP') ?? '');
+        USERDATA.ID = '';
+        USERDATA.UserLV = 0;
+        USERDATA.NAME = '';
+        USERDATA.Section = '';
+        USERDATA.Def = '';
+        USERDATA.LOCATION = '';
+      }
     } else {
       USERDATA.ID = '';
       USERDATA.UserLV = 0;

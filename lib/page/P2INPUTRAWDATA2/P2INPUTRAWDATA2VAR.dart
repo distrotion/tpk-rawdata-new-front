@@ -2,7 +2,7 @@ import 'dart:async';
 
 import '../../model/model.dart';
 
-class P1INPUTRAWDATAMAINVAR {
+class P2INPUTRAWDATA2MAINVAR {
   //
   static String AUTOGET = '';
   static late Timer DHtimer;
@@ -139,12 +139,6 @@ class P1INPUTRAWDATAMAINVAR {
   ];
   static List<MapEntry<String, String>> HESDEL = [
     MapEntry("", ""),
-    MapEntry("HP-MIC-001", "HP-MIC-001"),
-    MapEntry("HP-MIC-002", "HP-MIC-002"),
-    MapEntry("HP-THI-005", "HP-THI-005"),
-    MapEntry("HP-THI-002", "HP-THI-002"),
-    MapEntry("HP-THI-001", "HP-THI-001"),
-    MapEntry("HP-EWB-008", "HP-EWB-008"),
   ];
   static List<MapEntry<String, String>> HESPAL = [
     MapEntry("", ""),
