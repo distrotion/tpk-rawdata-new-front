@@ -50,6 +50,7 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
   final GlobalKey _globalKey4 = GlobalKey();
   final GlobalKey _globalKey5 = GlobalKey();
   final GlobalKey _globalKey6 = GlobalKey();
+  final GlobalKey _globalKey7 = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -200,29 +201,27 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                 onTap: () async {
                   var now = DateTime.now();
                   var now3d = DateTime.now().subtract(const Duration(days: 25));
-                  Dio()
-                      .post(
-                        "${server2}QMINCOMING/GETDATA",
-                        data: {
-                          "HEADER": {
-                            "FROM_DATE":
-                                "${DateFormat('dd').format(now3d)}.${DateFormat('MM').format(now3d)}.${DateFormat('yyyy').format(now3d)}",
-                            "TO_DATE":
-                                "${DateFormat('dd').format(now)}.${DateFormat('MM').format(now)}.${DateFormat('yyyy').format(now)}",
-                            "PLANT": "2100",
-                            // "LOT_ORI": P303QMMASTERQCVAR.LOT_ORI,
-                            "LOT_ORI": "03",
-                            "MATERIAL": "",
-                            "BATCH": "",
-                            "LOT_NO": [ReportPDFCommonvar.PO],
-                          },
-                        },
-                      )
-                      .then((value) {
-                        //
-                        var data1 = value.data;
-                        print(data1);
-                      });
+                  Dio().post(
+                    "${server2}QMINCOMING/GETDATA",
+                    data: {
+                      "HEADER": {
+                        "FROM_DATE":
+                            "${DateFormat('dd').format(now3d)}.${DateFormat('MM').format(now3d)}.${DateFormat('yyyy').format(now3d)}",
+                        "TO_DATE":
+                            "${DateFormat('dd').format(now)}.${DateFormat('MM').format(now)}.${DateFormat('yyyy').format(now)}",
+                        "PLANT": "2100",
+                        // "LOT_ORI": P303QMMASTERQCVAR.LOT_ORI,
+                        "LOT_ORI": "03",
+                        "MATERIAL": "",
+                        "BATCH": "",
+                        "LOT_NO": [ReportPDFCommonvar.PO],
+                      },
+                    },
+                  ).then((value) {
+                    //
+                    var data1 = value.data;
+                    print(data1);
+                  });
                 },
                 child: Container(
                   color: Colors.yellow,
@@ -264,11 +263,61 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                         print(value);
                         Navigator.pop(context);
                       });
-                    } else {
+                    } else if (ReportPDFCommonvar.PAGE == 3) {
                       capture3(
                         _globalKey1,
                         _globalKey2,
                         _globalKey3,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else if (ReportPDFCommonvar.PAGE == 4) {
+                      capture4(
+                        _globalKey1,
+                        _globalKey2,
+                        _globalKey3,
+                        _globalKey4,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else if (ReportPDFCommonvar.PAGE == 5) {
+                      capture5(
+                        _globalKey1,
+                        _globalKey2,
+                        _globalKey3,
+                        _globalKey4,
+                        _globalKey5,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else if (ReportPDFCommonvar.PAGE == 6) {
+                      capture6(
+                        _globalKey1,
+                        _globalKey2,
+                        _globalKey3,
+                        _globalKey4,
+                        _globalKey5,
+                        _globalKey6,
+                        ReportPDFCommonvar.PO,
+                      ).then((value) {
+                        print(value);
+                        Navigator.pop(context);
+                      });
+                    } else if (ReportPDFCommonvar.PAGE == 7) {
+                      capture7(
+                        _globalKey1,
+                        _globalKey2,
+                        _globalKey3,
+                        _globalKey4,
+                        _globalKey5,
+                        _globalKey6,
+                        _globalKey7,
                         ReportPDFCommonvar.PO,
                       ).then((value) {
                         print(value);
@@ -410,12 +459,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                   children: [
                                     FINISHEDGOODTRANFERHStable(),
                                     if (_dataCOMMON.datain.length >= 32) ...[
-                                      for (
-                                        int i = 0;
-                                        // i < _dataCOMMON.datain.length;
-                                        i < 32;
-                                        i++
-                                      ) ...[
+                                      for (int i = 0;
+                                          // i < _dataCOMMON.datain.length;
+                                          i < 32;
+                                          i++) ...[
                                         //
                                         FINISHEDGOODTRANFERHSitem(
                                           text01: _dataCOMMON.datain[i].date,
@@ -425,20 +472,17 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                               _dataCOMMON.datain[i].NUMBER,
                                             ),
                                           )).toString(),
-                                          text04:
-                                              (int.parse(
-                                                        ConverstStr(
-                                                          _dataCOMMON
-                                                              .datain[i]
-                                                              .POINT,
-                                                        ),
-                                                      ) +
-                                                      1)
-                                                  .toString(),
+                                          text04: (int.parse(
+                                                    ConverstStr(
+                                                      _dataCOMMON
+                                                          .datain[i].POINT,
+                                                    ),
+                                                  ) +
+                                                  1)
+                                              .toString(),
                                           text05: _dataCOMMON.datain[i].Data,
                                           text06: _dataCOMMON.datain[i].SP01,
-                                          pic:
-                                              _dataCOMMON.datain[i].Picture ==
+                                          pic: _dataCOMMON.datain[i].Picture ==
                                               '',
                                           Wid01: PicShow(
                                             width: 75,
@@ -449,12 +493,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                         ),
                                       ],
                                     ] else ...[
-                                      for (
-                                        int i = 0;
-                                        i < _dataCOMMON.datain.length;
-                                        // i < 30;
-                                        i++
-                                      ) ...[
+                                      for (int i = 0;
+                                          i < _dataCOMMON.datain.length;
+                                          // i < 30;
+                                          i++) ...[
                                         //
                                         FINISHEDGOODTRANFERHSitem(
                                           text01: _dataCOMMON.datain[i].date,
@@ -464,20 +506,17 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                               _dataCOMMON.datain[i].NUMBER,
                                             ),
                                           )).toString(),
-                                          text04:
-                                              (int.parse(
-                                                        ConverstStr(
-                                                          _dataCOMMON
-                                                              .datain[i]
-                                                              .POINT,
-                                                        ),
-                                                      ) +
-                                                      1)
-                                                  .toString(),
+                                          text04: (int.parse(
+                                                    ConverstStr(
+                                                      _dataCOMMON
+                                                          .datain[i].POINT,
+                                                    ),
+                                                  ) +
+                                                  1)
+                                              .toString(),
                                           text05: _dataCOMMON.datain[i].Data,
                                           text06: _dataCOMMON.datain[i].SP01,
-                                          pic:
-                                              _dataCOMMON.datain[i].Picture ==
+                                          pic: _dataCOMMON.datain[i].Picture ==
                                               '',
                                           Wid01: PicShow(
                                             width: 75,
@@ -548,12 +587,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                     children: [
                                       FINISHEDGOODTRANFERHStable(),
                                       if (_dataCOMMON.datain.length >= 64) ...[
-                                        for (
-                                          int i = 32;
-                                          // i < _dataCOMMON.datain.length;
-                                          i < 64;
-                                          i++
-                                        ) ...[
+                                        for (int i = 32;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 64;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -563,21 +600,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -587,12 +622,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                           ),
                                         ],
                                       ] else ...[
-                                        for (
-                                          int i = 32;
-                                          i < _dataCOMMON.datain.length;
-                                          // i < 30;
-                                          i++
-                                        ) ...[
+                                        for (int i = 32;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -602,21 +635,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -687,12 +718,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                     children: [
                                       FINISHEDGOODTRANFERHStable(),
                                       if (_dataCOMMON.datain.length >= 96) ...[
-                                        for (
-                                          int i = 64;
-                                          // i < _dataCOMMON.datain.length;
-                                          i < 96;
-                                          i++
-                                        ) ...[
+                                        for (int i = 64;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 96;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -702,21 +731,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -726,12 +753,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                           ),
                                         ],
                                       ] else ...[
-                                        for (
-                                          int i = 64;
-                                          i < _dataCOMMON.datain.length;
-                                          // i < 30;
-                                          i++
-                                        ) ...[
+                                        for (int i = 64;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -741,21 +766,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -827,12 +850,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                     children: [
                                       FINISHEDGOODTRANFERHStable(),
                                       if (_dataCOMMON.datain.length >= 128) ...[
-                                        for (
-                                          int i = 96;
-                                          // i < _dataCOMMON.datain.length;
-                                          i < 128;
-                                          i++
-                                        ) ...[
+                                        for (int i = 96;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 128;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -842,21 +863,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -866,12 +885,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                           ),
                                         ],
                                       ] else ...[
-                                        for (
-                                          int i = 96;
-                                          i < _dataCOMMON.datain.length;
-                                          // i < 30;
-                                          i++
-                                        ) ...[
+                                        for (int i = 96;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -881,21 +898,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -967,12 +982,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                     children: [
                                       FINISHEDGOODTRANFERHStable(),
                                       if (_dataCOMMON.datain.length >= 160) ...[
-                                        for (
-                                          int i = 128;
-                                          // i < _dataCOMMON.datain.length;
-                                          i < 160;
-                                          i++
-                                        ) ...[
+                                        for (int i = 128;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 160;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -982,21 +995,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -1006,12 +1017,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                           ),
                                         ],
                                       ] else ...[
-                                        for (
-                                          int i = 128;
-                                          i < _dataCOMMON.datain.length;
-                                          // i < 30;
-                                          i++
-                                        ) ...[
+                                        for (int i = 128;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -1021,21 +1030,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -1107,12 +1114,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                     children: [
                                       FINISHEDGOODTRANFERHStable(),
                                       if (_dataCOMMON.datain.length >= 192) ...[
-                                        for (
-                                          int i = 160;
-                                          // i < _dataCOMMON.datain.length;
-                                          i < 192;
-                                          i++
-                                        ) ...[
+                                        for (int i = 160;
+                                            // i < _dataCOMMON.datain.length;
+                                            i < 192;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -1122,21 +1127,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -1146,12 +1149,10 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                           ),
                                         ],
                                       ] else ...[
-                                        for (
-                                          int i = 160;
-                                          i < _dataCOMMON.datain.length;
-                                          // i < 30;
-                                          i++
-                                        ) ...[
+                                        for (int i = 160;
+                                            i < _dataCOMMON.datain.length;
+                                            // i < 30;
+                                            i++) ...[
                                           //
                                           FINISHEDGOODTRANFERHSitem(
                                             text01: _dataCOMMON.datain[i].date,
@@ -1161,21 +1162,19 @@ class _ReportPDFCommonState extends State<ReportPDFCommon> {
                                                 _dataCOMMON.datain[i].NUMBER,
                                               ),
                                             )).toString(),
-                                            text04:
-                                                (int.parse(
-                                                          ConverstStr(
-                                                            _dataCOMMON
-                                                                .datain[i]
-                                                                .POINT,
-                                                          ),
-                                                        ) +
-                                                        1)
-                                                    .toString(),
+                                            text04: (int.parse(
+                                                      ConverstStr(
+                                                        _dataCOMMON
+                                                            .datain[i].POINT,
+                                                      ),
+                                                    ) +
+                                                    1)
+                                                .toString(),
                                             text05: _dataCOMMON.datain[i].Data,
                                             text06: _dataCOMMON.datain[i].SP01,
                                             pic:
                                                 _dataCOMMON.datain[i].Picture ==
-                                                '',
+                                                    '',
                                             Wid01: PicShow(
                                               width: 75,
                                               height: 75,
@@ -1249,8 +1248,8 @@ void STDreport2(BuildContext contextin) {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
-              // child: Page303(),
-            ),
+                // child: Page303(),
+                ),
           ),
         ),
       );

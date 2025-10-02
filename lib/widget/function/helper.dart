@@ -303,3 +303,787 @@ Future<String> captureToback(
 //   }
 //   return null;
 // }
+
+Future<String> capture7(
+    GlobalKey<State<StatefulWidget>> globalKey1,
+    GlobalKey<State<StatefulWidget>> globalKey2,
+    GlobalKey<State<StatefulWidget>> globalKey3,
+    GlobalKey<State<StatefulWidget>> globalKey4,
+    GlobalKey<State<StatefulWidget>> globalKey5,
+    GlobalKey<State<StatefulWidget>> globalKey6,
+    GlobalKey<State<StatefulWidget>> globalKey7,
+    String PO) async {
+  try {
+    // FreeLoading(contextin);
+    RenderRepaintBoundary? boundary1 =
+        globalKey1.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image1 = await boundary1!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes1 =
+        await image1.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage1 =
+        bytes1!.buffer.asUint8List(bytes1.offsetInBytes, bytes1.lengthInBytes);
+
+    final imagePDF1 = pw.MemoryImage(
+      dataImage1,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary2 =
+        globalKey2.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image2 = await boundary2!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes2 =
+        await image2.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage2 =
+        bytes2!.buffer.asUint8List(bytes2.offsetInBytes, bytes2.lengthInBytes);
+
+    final imagePDF2 = pw.MemoryImage(
+      dataImage2,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary3 =
+        globalKey3.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image3 = await boundary3!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes3 =
+        await image3.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage3 =
+        bytes3!.buffer.asUint8List(bytes3.offsetInBytes, bytes3.lengthInBytes);
+
+    final imagePDF3 = pw.MemoryImage(
+      dataImage3,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary4 =
+        globalKey4.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image4 = await boundary4!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes4 =
+        await image4.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage4 =
+        bytes4!.buffer.asUint8List(bytes4.offsetInBytes, bytes4.lengthInBytes);
+
+    final imagePDF4 = pw.MemoryImage(
+      dataImage4,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary5 =
+        globalKey5.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image5 = await boundary5!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes5 =
+        await image5.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage5 =
+        bytes5!.buffer.asUint8List(bytes5.offsetInBytes, bytes5.lengthInBytes);
+
+    final imagePDF5 = pw.MemoryImage(
+      dataImage5,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary6 =
+        globalKey6.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image6 = await boundary6!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes6 =
+        await image6.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage6 =
+        bytes6!.buffer.asUint8List(bytes6.offsetInBytes, bytes6.lengthInBytes);
+
+    final imagePDF6 = pw.MemoryImage(
+      dataImage6,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary7 =
+        globalKey7.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image7 = await boundary7!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes7 =
+        await image7.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage7 =
+        bytes7!.buffer.asUint8List(bytes7.offsetInBytes, bytes7.lengthInBytes);
+
+    final imagePDF7 = pw.MemoryImage(
+      dataImage7,
+    );
+    //-----------
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF1)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF2)]),
+        ),
+      ),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF3)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF4)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF5)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF6)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF7)]),
+        ),
+      ),
+    );
+
+    final response = await Dio().post(
+      server + 'genfloder',
+      data: {
+        "PIC": "imageEncoded",
+        "PO": PO,
+      },
+    );
+
+    // print(await pdf.save());
+    final bytesPDF = await pdf.save();
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+
+    // Navigator.pop(contextin);
+    return 'ok';
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<String> capture4(
+    GlobalKey<State<StatefulWidget>> globalKey1,
+    GlobalKey<State<StatefulWidget>> globalKey2,
+    GlobalKey<State<StatefulWidget>> globalKey3,
+    GlobalKey<State<StatefulWidget>> globalKey4,
+    // GlobalKey<State<StatefulWidget>> globalKey5,
+    // GlobalKey<State<StatefulWidget>> globalKey6,
+    // GlobalKey<State<StatefulWidget>> globalKey7,
+    String PO) async {
+  try {
+    // FreeLoading(contextin);
+    RenderRepaintBoundary? boundary1 =
+        globalKey1.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image1 = await boundary1!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes1 =
+        await image1.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage1 =
+        bytes1!.buffer.asUint8List(bytes1.offsetInBytes, bytes1.lengthInBytes);
+
+    final imagePDF1 = pw.MemoryImage(
+      dataImage1,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary2 =
+        globalKey2.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image2 = await boundary2!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes2 =
+        await image2.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage2 =
+        bytes2!.buffer.asUint8List(bytes2.offsetInBytes, bytes2.lengthInBytes);
+
+    final imagePDF2 = pw.MemoryImage(
+      dataImage2,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary3 =
+        globalKey3.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image3 = await boundary3!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes3 =
+        await image3.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage3 =
+        bytes3!.buffer.asUint8List(bytes3.offsetInBytes, bytes3.lengthInBytes);
+
+    final imagePDF3 = pw.MemoryImage(
+      dataImage3,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary4 =
+        globalKey4.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image4 = await boundary4!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes4 =
+        await image4.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage4 =
+        bytes4!.buffer.asUint8List(bytes4.offsetInBytes, bytes4.lengthInBytes);
+
+    final imagePDF4 = pw.MemoryImage(
+      dataImage4,
+    );
+    //-----------
+    // RenderRepaintBoundary? boundary5 =
+    //     globalKey5.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image5 = await boundary5!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes5 =
+    //     await image5.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage5 =
+    //     bytes5!.buffer.asUint8List(bytes5.offsetInBytes, bytes5.lengthInBytes);
+
+    // final imagePDF5 = pw.MemoryImage(
+    //   dataImage5,
+    // );
+    //-----------
+    // RenderRepaintBoundary? boundary6 =
+    //     globalKey6.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image6 = await boundary6!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes6 =
+    //     await image6.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage6 =
+    //     bytes6!.buffer.asUint8List(bytes6.offsetInBytes, bytes6.lengthInBytes);
+
+    // final imagePDF6 = pw.MemoryImage(
+    //   dataImage6,
+    // );
+    // //-----------
+    // RenderRepaintBoundary? boundary7 =
+    //     globalKey7.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image7 = await boundary7!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes7 =
+    //     await image7.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage7 =
+    //     bytes7!.buffer.asUint8List(bytes7.offsetInBytes, bytes7.lengthInBytes);
+
+    // final imagePDF7 = pw.MemoryImage(
+    //   dataImage7,
+    // );
+    // //-----------
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF1)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF2)]),
+        ),
+      ),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF3)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF4)]),
+        ),
+      ),
+    );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF5)]),
+    //     ),
+    //   ),
+    // );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF6)]),
+    //     ),
+    //   ),
+    // );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF7)]),
+    //     ),
+    //   ),
+    // );
+
+    final response = await Dio().post(
+      server + 'genfloder',
+      data: {
+        "PIC": "imageEncoded",
+        "PO": PO,
+      },
+    );
+
+    // print(await pdf.save());
+    final bytesPDF = await pdf.save();
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+
+    // Navigator.pop(contextin);
+    return 'ok';
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<String> capture5(
+    GlobalKey<State<StatefulWidget>> globalKey1,
+    GlobalKey<State<StatefulWidget>> globalKey2,
+    GlobalKey<State<StatefulWidget>> globalKey3,
+    GlobalKey<State<StatefulWidget>> globalKey4,
+    GlobalKey<State<StatefulWidget>> globalKey5,
+    // GlobalKey<State<StatefulWidget>> globalKey6,
+    // GlobalKey<State<StatefulWidget>> globalKey7,
+    String PO) async {
+  try {
+    // FreeLoading(contextin);
+    RenderRepaintBoundary? boundary1 =
+        globalKey1.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image1 = await boundary1!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes1 =
+        await image1.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage1 =
+        bytes1!.buffer.asUint8List(bytes1.offsetInBytes, bytes1.lengthInBytes);
+
+    final imagePDF1 = pw.MemoryImage(
+      dataImage1,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary2 =
+        globalKey2.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image2 = await boundary2!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes2 =
+        await image2.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage2 =
+        bytes2!.buffer.asUint8List(bytes2.offsetInBytes, bytes2.lengthInBytes);
+
+    final imagePDF2 = pw.MemoryImage(
+      dataImage2,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary3 =
+        globalKey3.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image3 = await boundary3!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes3 =
+        await image3.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage3 =
+        bytes3!.buffer.asUint8List(bytes3.offsetInBytes, bytes3.lengthInBytes);
+
+    final imagePDF3 = pw.MemoryImage(
+      dataImage3,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary4 =
+        globalKey4.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image4 = await boundary4!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes4 =
+        await image4.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage4 =
+        bytes4!.buffer.asUint8List(bytes4.offsetInBytes, bytes4.lengthInBytes);
+
+    final imagePDF4 = pw.MemoryImage(
+      dataImage4,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary5 =
+        globalKey5.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image5 = await boundary5!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes5 =
+        await image5.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage5 =
+        bytes5!.buffer.asUint8List(bytes5.offsetInBytes, bytes5.lengthInBytes);
+
+    final imagePDF5 = pw.MemoryImage(
+      dataImage5,
+    );
+    //-----------
+    // RenderRepaintBoundary? boundary6 =
+    //     globalKey6.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image6 = await boundary6!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes6 =
+    //     await image6.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage6 =
+    //     bytes6!.buffer.asUint8List(bytes6.offsetInBytes, bytes6.lengthInBytes);
+
+    // final imagePDF6 = pw.MemoryImage(
+    //   dataImage6,
+    // );
+    // //-----------
+    // RenderRepaintBoundary? boundary7 =
+    //     globalKey7.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image7 = await boundary7!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes7 =
+    //     await image7.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage7 =
+    //     bytes7!.buffer.asUint8List(bytes7.offsetInBytes, bytes7.lengthInBytes);
+
+    // final imagePDF7 = pw.MemoryImage(
+    //   dataImage7,
+    // );
+    // //-----------
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF1)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF2)]),
+        ),
+      ),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF3)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF4)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF5)]),
+        ),
+      ),
+    );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF6)]),
+    //     ),
+    //   ),
+    // );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF7)]),
+    //     ),
+    //   ),
+    // );
+
+    final response = await Dio().post(
+      server + 'genfloder',
+      data: {
+        "PIC": "imageEncoded",
+        "PO": PO,
+      },
+    );
+
+    // print(await pdf.save());
+    final bytesPDF = await pdf.save();
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+
+    // Navigator.pop(contextin);
+    return 'ok';
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<String> capture6(
+    GlobalKey<State<StatefulWidget>> globalKey1,
+    GlobalKey<State<StatefulWidget>> globalKey2,
+    GlobalKey<State<StatefulWidget>> globalKey3,
+    GlobalKey<State<StatefulWidget>> globalKey4,
+    GlobalKey<State<StatefulWidget>> globalKey5,
+    GlobalKey<State<StatefulWidget>> globalKey6,
+    // GlobalKey<State<StatefulWidget>> globalKey7,
+    String PO) async {
+  try {
+    // FreeLoading(contextin);
+    RenderRepaintBoundary? boundary1 =
+        globalKey1.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image1 = await boundary1!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes1 =
+        await image1.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage1 =
+        bytes1!.buffer.asUint8List(bytes1.offsetInBytes, bytes1.lengthInBytes);
+
+    final imagePDF1 = pw.MemoryImage(
+      dataImage1,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary2 =
+        globalKey2.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image2 = await boundary2!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes2 =
+        await image2.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage2 =
+        bytes2!.buffer.asUint8List(bytes2.offsetInBytes, bytes2.lengthInBytes);
+
+    final imagePDF2 = pw.MemoryImage(
+      dataImage2,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary3 =
+        globalKey3.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image3 = await boundary3!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes3 =
+        await image3.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage3 =
+        bytes3!.buffer.asUint8List(bytes3.offsetInBytes, bytes3.lengthInBytes);
+
+    final imagePDF3 = pw.MemoryImage(
+      dataImage3,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary4 =
+        globalKey4.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image4 = await boundary4!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes4 =
+        await image4.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage4 =
+        bytes4!.buffer.asUint8List(bytes4.offsetInBytes, bytes4.lengthInBytes);
+
+    final imagePDF4 = pw.MemoryImage(
+      dataImage4,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary5 =
+        globalKey5.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image5 = await boundary5!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes5 =
+        await image5.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage5 =
+        bytes5!.buffer.asUint8List(bytes5.offsetInBytes, bytes5.lengthInBytes);
+
+    final imagePDF5 = pw.MemoryImage(
+      dataImage5,
+    );
+    //-----------
+    RenderRepaintBoundary? boundary6 =
+        globalKey6.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image6 = await boundary6!.toImage(pixelRatio: 1.5);
+
+    final ByteData? bytes6 =
+        await image6.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage6 =
+        bytes6!.buffer.asUint8List(bytes6.offsetInBytes, bytes6.lengthInBytes);
+
+    final imagePDF6 = pw.MemoryImage(
+      dataImage6,
+    );
+    //-----------
+    // RenderRepaintBoundary? boundary7 =
+    //     globalKey7.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    // final image7 = await boundary7!.toImage(pixelRatio: 1.5);
+
+    // final ByteData? bytes7 =
+    //     await image7.toByteData(format: dart_ui.ImageByteFormat.png);
+    // Uint8List dataImage7 =
+    //     bytes7!.buffer.asUint8List(bytes7.offsetInBytes, bytes7.lengthInBytes);
+
+    // final imagePDF7 = pw.MemoryImage(
+    //   dataImage7,
+    // );
+    // //-----------
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF1)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF2)]),
+        ),
+      ),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF3)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF4)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF5)]),
+        ),
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF6)]),
+        ),
+      ),
+    );
+    // pdf.addPage(
+    //   pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: pw.EdgeInsets.all(4),
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Column(children: [pw.Image(imagePDF7)]),
+    //     ),
+    //   ),
+    // );
+
+    final response = await Dio().post(
+      server + 'genfloder',
+      data: {
+        "PIC": "imageEncoded",
+        "PO": PO,
+      },
+    );
+
+    // print(await pdf.save());
+    final bytesPDF = await pdf.save();
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+
+    // Navigator.pop(contextin);
+    return 'ok';
+  } catch (e) {
+    rethrow;
+  }
+}
